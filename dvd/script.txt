@@ -1,0 +1,125 @@
+; installation script for win7patch
+; interpreted and executed by 'setup.bat'
+
+; chkdsk
+;fsutil dirty set C:
+;reboot
+
+; sfc
+;sfc /scannow
+;reboot
+
+; sp1
+kb2533552
+kb976932 /quiet /nodialog /norestart
+reboot
+
+; ssu
+kb4490628  ; ssu [2019-03]
+kb4474419  ; sha-2 support
+reboot
+kb4536952  ; ssu [2020-01]
+
+; misc
+kb2545698
+kb2547666
+x64 kb2603229
+kb2676562
+kb2667402
+kb2698365
+kb2732059
+kb2729094  ; required by ie11
+kb2574819
+kb2592687  ; rdp 8.0
+kb2750841
+kb2761217
+kb2685811  ; kmdf 1.11
+kb2685813  ; umdf 1.11
+kb2773072
+kb2670838  ; required by ie11
+kb2813347
+kb2834140
+kb2830477
+kb2900986
+kb2862330
+kb2919469
+kb2970228
+kb2984972
+kb3004375
+kb3021917
+kb3006137
+kb3046269
+kb3059317
+kb3068708
+kb3080149
+kb3123479
+kb3102429
+kb3118401
+kb3138612
+kb3156016
+kb3125574  ; convenience rollup [2016-04]
+kb3161949
+kb3159398
+kb3161102
+kb3179573  ; update rollup [2016-08]
+kb3184143
+kb3172605  ; update rollup [2016-07]
+kb2952664
+reboot
+kb3150513
+
+; vcredist
+    run vcredist2005_x86.exe /q
+x64 run vcredist2005_x64.exe /q
+    run vcredist2008_x86.exe /q
+x64 run vcredist2008_x64.exe /q
+    run vcredist2010_x86.exe /q /norestart
+x64 run vcredist2010_x64.exe /q /norestart
+    run vcredist2012_x86.exe /quiet /norestart
+x64 run vcredist2012_x64.exe /quiet /norestart
+    run vcredist2013_x86.exe /quiet /norestart
+x64 run vcredist2013_x64.exe /quiet /norestart
+    run vc_redist.x86.exe /quiet /norestart  ; universal crt
+x64 run vc_redist.x64.exe /quiet /norestart  ; universal crt
+
+; directx
+echo directx_Jun2010_redist.exe
+quiet rd /s /q C:\directx_Jun2010_redist
+quiet start /wait directx_Jun2010_redist.exe /Q /T:C:\directx_Jun2010_redist /C
+quiet start /wait C:\directx_Jun2010_redist\DXSETUP.exe /silent
+quiet rd /s /q C:\directx_Jun2010_redist
+echo.
+
+; ie11
+x86 run EIE11_ZH-CN_MCM_WIN7.EXE /C:"IE-Setup.cmd /quiet /update-no /closeprograms /norestart"
+x64 run EIE11_ZH-CN_MCM_WIN764.EXE /C:"IE-Setup.cmd /quiet /update-no /closeprograms /norestart"
+kb3185319
+kb4534251  ; cumulative security update [2020-01]
+
+; dotnet48
+run ndp48-x86-x64-allos-enu.exe /q /norestart  ; dotnet48
+run ndp48-x86-x64-allos-chs.exe /q /norestart  ; XXX: dotnet48 language pack
+kb4532941 /q /norestart                        ; rollup for dotnet48 [2020-01]
+
+; dotnet351
+kb2894844
+kb4040980
+kb4532945  ; rollup for dotnet351 [2020-01]
+
+; monthly rollup
+kb4539601  ; monthly rollup (preview) [2020-01]
+quiet reg add HKCU\Software\Microsoft\Windows\CurrentVersion\EOSNotify /v DiscontinueEOS /t REG_DWORD /d 1 /f
+reboot
+
+; cleanmgr
+;quiet reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Service Pack Cleanup" /v StateFlags1000 /t REG_DWORD /d 2 /f
+;quiet reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup" /v StateFlags1000 /t REG_DWORD /d 2 /f
+;quiet start /wait cleanmgr /sagerun:1000
+
+; spsuperseded
+;dism /online /cleanup-image /spsuperseded
+
+; defrag
+defrag C: /h /u
+
+finish
