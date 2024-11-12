@@ -111,6 +111,11 @@ kb4539601  ; monthly rollup (preview) [2020-01]
 quiet reg add HKCU\Software\Microsoft\Windows\CurrentVersion\EOSNotify /v DiscontinueEOS /t REG_DWORD /d 1 /f
 reboot
 
+; esu
+kb5017397  ; ssu [2022-09]
+kb5022338  ; monthly rollup [2023-01]
+reboot
+
 ; cleanmgr
 ;quiet reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Service Pack Cleanup" /v StateFlags1000 /t REG_DWORD /d 2 /f
 ;quiet reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches\Update Cleanup" /v StateFlags1000 /t REG_DWORD /d 2 /f
